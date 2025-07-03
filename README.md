@@ -12,16 +12,19 @@
 
 
 
+## 功能
 
-前置调节
-benchmarkSQL 已与pg数据正常通信. 
+- 基于上游 A-Tune 工具对 PostgreSQL 场景下关注的内核配置，通过 TensorFlow 迭代分析，识别出对多次轮训结果中选择最优的跑分时内核配置参数并进行打印。
+- 针对优化结果配置结果提供 `apply_sysctl_config.sh` 一键部署设置。
+- 支持参数扩展，同时可满足 POC 工单数据库交付场景，适配数据库厂商标准化的用例执行步骤。
 
-步骤
+## 前置调节
 
-根据实际情况修改脚本参数说明
+确保 benchmarkSQL 已与 pg 数据正常通信。
 
-需要评估的内核配置参数 
+## 配置参数
 
+```python
 PARAM_CONFIG = [
     {"name": "kernel.sched_cfs_bandwidth_slice_us", "min": 1000, "max": 50000, "step": 1000},
     {"name": "kernel.sched_migration_cost_ns", "min": 100000, "max": 5000000, "step": 100000},
@@ -39,30 +42,17 @@ PARAM_CONFIG = [
     {"name": "net.core.somaxconn", "min": 128, "max": 65536, "step": 128}
 ]
 
-
-
 CONFIG = {
-    "destroy_script": "./runDatabaseDestroy.sh", #benchmark绝对路径 ,或者脚本在benchmark/run/路径下运行
-    "build_script": "./runDatabaseBuild.sh",  #benchmark绝对路径,或者脚本在benchmark/run/路径下运行
-    "benchmark_script": "./runBenchmark.sh", #benchmark 绝对路径,或者脚本在benchmark/run/路径下运行
-    "props_file": "props.openGauss",  # benchmark 跑测时指定的测试文件绝对路径, 或者脚本在benchmark/run/路径下运行
-    "benchmark_timeout": 300,  # 跑测一轮需要的耗时, 基准测试超时时间（秒）,benchmark config 中runMins=10 则是十分钟, 那么这里就设置>600, 例如605
-    "iterations": 10,          # 优化迭代次数, 需要跑测多少次, 取最优
-    "stabilize_time": 5,       # 系统稳定时间（秒）,不建议修改
-    "recovery_time": 3,        # 系统恢复时间（秒）,不建议修改
-    "server_url": "http://192.168.1.2:5000"  # 服务器端地址
+    "destroy_script": "./runDatabaseDestroy.sh",  # benchmark 绝对路径，或者脚本在 benchmark/run/ 路径下运行
+    "build_script": "./runDatabaseBuild.sh",      # benchmark 绝对路径，或者脚本在 benchmark/run/ 路径下运行
+    "benchmark_script": "./runBenchmark.sh",     # benchmark 绝对路径，或者脚本在 benchmark/run/ 路径下运行
+    "props_file": "props.openGauss",             # benchmark 跑测时指定的测试文件绝对路径，或者脚本在 benchmark/run/ 路径下运行
+    "benchmark_timeout": 300,                    # 跑测一轮需要的耗时，基准测试超时时间（秒）。benchmark config 中 runMins=10 则是十分钟，那么这里就设置 >600，例如 605
+    "iterations": 10,                            # 优化迭代次数，需要跑测多少次，取最优
+    "stabilize_time": 5,                         # 系统稳定时间（秒），不建议修改
+    "recovery_time": 3,                          # 系统恢复时间（秒），不建议修改
+    "server_url": "http://192.168.1.2:5000"     # 服务器端地址
 }
-
-
-
-文件	                            位置	            用途
-default_sysctl.conf	           Client端	    保存原始系统配置
-best_sysctl.conf	             Client端	    保存优化后的最佳配置
-apply_sysctl_config.sh	       Client端	    快速部署配置的脚本
-sysctl_optimizer_server.log	   Server端	    服务端日志
-sysctl_optimizer_client.log	   Client端	    客户端日志
-optimization_results.csv	     Client端	    所有迭代结果的记录
-
 
 
 执行流程图说明
