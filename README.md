@@ -2,11 +2,6 @@
 适用于数据库benchmarkaql参数优化场景, 例如: 华为 gaussdb, DM达梦, 腾讯 POSTGRESQL-XC 等
 
 
-功能
-基于上游A-Tune工具对postgresql场景下关注的内核配置,  通过迭代分析,识别出对多次轮训结果中选择最优的跑分时内核配置参数并进行打印 , 同时针对优化结果配置结果提供了 apply_sysctl_config.sh一键部署设置
-支持参数扩展, 同时可满足POC工单数据库交付场景, 适配数据库厂商标准化的用例执行步骤
-
-
 
 ![示例图片](https://github.com/relaxzw/best_kernel_config_for_benchmarksql_test_tools/raw/main/print_report.png)
 
