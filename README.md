@@ -83,7 +83,7 @@ sudo ./apply_sysctl_config.sh
 
 逻辑流程说明
 
-# Benchmark 测试流程
+# 工具在Benchmark 测试流程的使用说明
 
 ## 1. 初始化阶段
 
