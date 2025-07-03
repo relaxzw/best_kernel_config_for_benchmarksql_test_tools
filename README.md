@@ -3,11 +3,7 @@
 
 
 
-适用于数据库benchmark参数优化场景
-如: 
-华为 gaussdb
-DM达梦
-腾讯 POSTGRESQL-XC
+
 
 功能
 基于上游A-Tune工具对postgresql场景下关注的内核配置,  通过tensorflow 迭代分析,识别出对多次轮训结果中选择最优的跑分时内核配置参数并进行打印 , 同时针对优化结果配置结果提供了 apply_sysctl_config.sh一键部署设置
